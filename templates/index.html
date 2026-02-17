@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlantScan Pro - AI Botanical Intelligence</title>
+    <style>
+        :root {
+            --primary: #1b5e20;
+            --secondary: #2e7d32;
+            --accent: #81c784;
+            --light-bg: #f1f8e9;
+            --text-dark: #1a1a1a;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background-color: #fafdfa;
+            color: var(--text-dark);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .dashboard {
+            display: flex;
+            flex-direction: row;
+            gap: 40px;
+            max-width: 1100px;
+            width: 95%;
+            margin: 40px auto;
+        }
+
+        /* UPLOAD CARD */
+        .card-upload {
+            flex: 1;
+            background: var(--white);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+            height: fit-content;
+            border: 1px solid #edf2ed;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .upload-zone {
+            border: 2px dashed #cfd8dc;
+            background: var(--light-bg);
+            padding: 50px 20px;
+            border-radius: 20px;
+            margin: 30px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--secondary);
+            background: #e1f1e1;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        /* RESULTS PANEL */
+        .results-panel {
+            flex: 1.5;
+            background: var(--white);
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+            border: 1px solid #edf2ed;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .results-header {
+            background: var(--primary);
+            color: white;
+            padding: 25px 40px;
+        }
+
+        .results-body {
+            padding: 40px;
+            line-height: 1.7;
+            color: #444;
+            max-height: 700px;
+            overflow-y: auto;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 100px 40px;
+            color: #999;
+        }
+
+        .ai-text {
+            white-space: pre-wrap;
+            font-size: 15px;
+        }
+
+        .error-msg {
+            color: #c62828;
+            background: #ffebee;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard">
+        <div class="card-upload">
+            <div class="logo">🌿 PlantScan Pro</div>
+            <p style="color: #666;">AI-powered botanical identification and care Intelligence.</p>
+            
+            <form method="post" enctype="multipart/form-data">
+                <div class="upload-zone" onclick="document.getElementById('fileInput').click()">
+                    <p id="fileName">Drop plant photo here or click to browse</p>
+                    <input type="file" id="fileInput" name="file" accept="image/*" style="display:none;" 
+                           onchange="document.getElementById('fileName').innerText = this.files[0].name" required>
+                </div>
+                <button type="submit" class="btn-primary">Analyze Specimen</button>
+            </form>
+
+            {% if error %}
+                <div class="error-msg">⚠️ {{ error }}</div>
+            {% endif %}
+        </div>
+
+        <div class="results-panel">
+            <div class="results-header">
+                <h2 style="margin:0; font-size: 20px;">Botanical Profile</h2>
+            </div>
+            
+            <div class="results-body">
+                {% if full_info %}
+                    <div class="ai-text">{{ full_info }}</div>
+                {% else %}
+                    <div class="empty-state">
+                        <img src="https://cdn-icons-png.flaticon.com/512/628/628283.png" width="60" style="opacity: 0.2; margin-bottom: 20px;">
+                        <p>Waiting for scan...<br>Upload an image to see identification and care data.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
