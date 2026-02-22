@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 # --- CONFIGURATION ---
 # Ensure your key is from https://aistudio.google.com/
-API_KEY = "AIzaSyD03zdUugitrUO2SLCTONHrx2xLsRX8feU"
+API_KEY = "AIzaSyDTUtptQQOEFvXaxdg2N09w1I6k12KKj5w"
 
 # Force 'rest' transport to avoid common local environment SSL/gRPC 404 errors
 genai.configure(api_key=API_KEY, transport='rest')
